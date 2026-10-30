@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aesthetic Minimal Journal</title>
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Inter:wght@300;400&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com" />
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; cursor: none !important; } /* Nasconde il cursore di default */
+        
+        body {
+            background-color: #faf9f6; /* Un bianco caldo, tipo carta d'archivio */
+            color: #121212;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* EFFETTO PELLICOLA / GRAIN ANIMATO */
+        .grain {
+            position: fixed; top: -50%; left: -50%; right: -50%; bottom: -50%;
+            width: 200%; height: 200%;
+            background: url('https://unsplash.com') repeat;
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 9999;
+            animation: noise 0.2s infinite;
+        }
+        @keyframes noise {
+            0% { transform: translate(0,0); }
+            10% { transform: translate(-1%, -1%); }
+            20% { transform: translate(1%, 2%); }
+            30% { transform: translate(-2%, -2%); }
+            40% { transform: translate(1%, 3%); }
+            50% { transform: translate(-1%, 1%); }
+            60% { transform: translate(2%, 2%); }
+            75% { transform: translate(-2%, -1%); }
+            90% { transform: translate(1%, 3%); }
+            100% { transform: translate(0, 0); }
+        }
+
+        /* CURSORE PERSONALIZZATO */
+        #custom-cursor {
+            width: 8px; height: 8px;
+            background: #121212;
+            border-radius: 50%;
+            position: fixed; transform: translate(-50%, -50%);
+            pointer-events: none; z-index: 10000;
+            transition: width 0.3s, height 0.3s, background 0.3s;
+        }
+        #custom-cursor-overlay {
+            width: 40px; height: 40px;
+            border: 1px solid rgba(18, 18, 18, 0.2);
+            border-radius: 50%;
+            position: fixed; transform: translate(-50%, -50%);
+            pointer-events: none; z-index: 9999;
+            transition: all 0.1s ease-out;
+        }
+
+        /* INTERFACCIA ED EDITORIALE */
+        header {
+            position: fixed; top: 0; width: 100%;
+            padding: 40px 6%;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 900;
+        }
+        header h1 { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 400; letter-spacing: -0.5px; }
+        nav a { text-decoration: none; color: #121212; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; margin-left: 30px; position: relative; }
+        
+        /* Animazione linea sotto i link */
+        nav a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 100%; height: 1px;
+            background: #121212; transform: scaleX(0); transform-origin: right; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        nav a:hover::after { transform: scaleX(1); transform-origin: left; }
+
+        /* STRUTTURA DEL BLOG */
+        main { max-width: 900px; margin: 200px auto; padding: 0 40px; }
+
+        .post { margin-bottom: 180px; display: grid; grid-template-columns: 1fr; gap: 30px; }
+        
+        /* Contenitore Immagine con Maschera */
+        .post-image-wrapper {
+            width: 100%; height: 450px;
+            overflow: hidden;
+            background-color: #eaeaea;
+            position: relative;
+        }
+        .post-image-wrapper img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(1.1); /* Look editoriale in bianco e nero */
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .post-image-wrapper:hover img {
+            transform: scale(1.05); /* Ingrandimento fluido al passaggio */
+        }
+
+        /* Testi del Post */
+        .post-meta { font-size: 0.75rem; uppercase; letter-spacing: 3px; color: #777; margin-top: 10px;}
+        
+        /* Animazione rivelazione testo (Reveal) */
+        .reveal-wrapper { overflow: hidden; position: relative; }
+        .post-title { 
+            font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 400; line-height: 1.1; 
+            transform: translateY(100%); transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .post.aos-animate .post-title { transform: translateY(0); }
+
+        .post-excerpt { font-size: 1.05rem; color: #444; font-weight: 300; max-width: 600px; margin: 15px 0; }
+        
+        .read-link { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; text-decoration: none; color: #121212; font-weight: 400; display: inline-block; margin-top: 10px; transition: opacity 0.3s;}
+        .read-link:hover { opacity: 0.5; }
+    </style>
+</head>
+<body>
+
+    <div class="grain"></div>
+    <div id="custom-cursor"></div>
+    <div id="custom-cursor-overlay"></div>
+
+    <header>
+        <h1>AÉSTHETE</h1>
+        <nav>
+            <a href="#" class="hover-target">Journal</a>
+            <a href="#" class="hover-target">About</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Post 1 -->
+        <article class="post" data-aos="fade-up" data-aos-duration="1200">
+            <div class="post-image-wrapper">
+                <img src="https://unsplash.com" alt="Minimal Interior">
+            </div>
+            <p class="post-meta">Essays — 01</p>
+            <div class="reveal-wrapper">
+                <h2 class="post-title">Il silenzio delle forme geometriche</h2>
+            </div>
+            <p class="post-excerpt">Uno studio approfondito su come la luce taglia le superfici bianche durante le prime ore del mattino, ridefinendo il concetto di spazio vuoto nell'abitare moderno.</p>
+            <div><a href="#" class="read-link hover-target">Read Story</a></div>
+        </article>
+
+        <!-- Post 2 -->
+        <article class="post" data-aos="fade-up" data-aos-duration="1200">
+            <div class="post-image-wrapper">
+                <img src="https://unsplash.com" alt="Ocean Minimal">
+            </div>
+            <p class="post-meta">Visuals — 02</p>
+            <div class="reveal-wrapper">
+                <h2 class="post-title">Orizzonti monocromatici e texture saline</h2>
+            </div>
+            <p class="post-excerpt">Catturare l'assenza. Una serie fotografica dedicata ai paesaggi costieri del nord Europa durante la stagione invernale, dove il cielo si fonde completamente con l'acqua.</p>
+            <div><a href="#" class="read-link hover-target">Read Story</a></div>
+        </article>
+    </main>
+
+    <script src="https://unpkg.com"></script>
+    <script>
+        // Inizializza animazioni di scorrimento delicate
+        AOS.init({ once: true, offset: 100 });
+
+        // GESTIONE CURSORE PERSONALIZZATO ANIMATO
+        const cursor = document.getElementById('custom-cursor');
+        const overlay = document.getElementById('custom-cursor-overlay');
+        const hoverTargets = document.querySelectorAll('.hover-target');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            
+            // L'overlay segue il mouse con un leggero ritardo (effetto elastico)
+            setTimeout(() => {
+                overlay.style.left = e.clientX + 'px';
+                overlay.style.top = e.clientY + 'px';
+            }, 50);
+        });
+
+        // Effetto quando si passa sopra ai link cliccabili
+        hoverTargets.forEach(target => {
+            target.addEventListener('mouseenter', () => {
+                cursor.style.width = '24px';
+                cursor.style.height = '24px';
+                cursor.style.background = 'rgba(18,18,18,0.1)';
+                overlay.style.width = '55px';
+                overlay.style.height = '55px';
+            });
+            target.addEventListener('mouseleave', () => {
+                cursor.style.width = '8px';
+                cursor.style.height = '8px';
+                cursor.style.background = '#121212';
+                overlay.style.width = '40px';
+                overlay.style.height = '40px';
+            });
+        });
+    </script>
+</body>
+</html>
