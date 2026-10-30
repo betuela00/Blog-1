@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://unpkg.com" />
 
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; cursor: none !important; } /* Nasconde il cursore di default */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body {
             background-color: #faf9f6; /* Un bianco caldo, tipo carta d'archivio */
@@ -41,24 +41,6 @@
             75% { transform: translate(-2%, -1%); }
             90% { transform: translate(1%, 3%); }
             100% { transform: translate(0, 0); }
-        }
-
-        /* CURSORE PERSONALIZZATO */
-        #custom-cursor {
-            width: 8px; height: 8px;
-            background: #121212;
-            border-radius: 50%;
-            position: fixed; transform: translate(-50%, -50%);
-            pointer-events: none; z-index: 10000;
-            transition: width 0.3s, height 0.3s, background 0.3s;
-        }
-        #custom-cursor-overlay {
-            width: 40px; height: 40px;
-            border: 1px solid rgba(18, 18, 18, 0.2);
-            border-radius: 50%;
-            position: fixed; transform: translate(-50%, -50%);
-            pointer-events: none; z-index: 9999;
-            transition: all 0.1s ease-out;
         }
 
         /* INTERFACCIA ED EDITORIALE */
@@ -101,7 +83,7 @@
         }
 
         /* Testi del Post */
-        .post-meta { font-size: 0.75rem; uppercase; letter-spacing: 3px; color: #777; margin-top: 10px;}
+        .post-meta { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 3px; color: #777; margin-top: 10px;}
         
         /* Animazione rivelazione testo (Reveal) */
         .reveal-wrapper { overflow: hidden; position: relative; }
@@ -120,14 +102,12 @@
 <body>
 
     <div class="grain"></div>
-    <div id="custom-cursor"></div>
-    <div id="custom-cursor-overlay"></div>
 
     <header>
         <h1>AÉSTHETE</h1>
         <nav>
-            <a href="#" class="hover-target">Journal</a>
-            <a href="#" class="hover-target">About</a>
+            <a href="#">Journal</a>
+            <a href="#">About</a>
         </nav>
     </header>
 
@@ -142,7 +122,7 @@
                 <h2 class="post-title">Il silenzio delle forme geometriche</h2>
             </div>
             <p class="post-excerpt">Uno studio approfondito su come la luce taglia le superfici bianche durante le prime ore del mattino, ridefinendo il concetto di spazio vuoto nell'abitare moderno.</p>
-            <div><a href="#" class="read-link hover-target">Read Story</a></div>
+            <div><a href="#" class="read-link">Read Story</a></div>
         </article>
 
         <!-- Post 2 -->
@@ -155,7 +135,7 @@
                 <h2 class="post-title">Orizzonti monocromatici e texture saline</h2>
             </div>
             <p class="post-excerpt">Catturare l'assenza. Una serie fotografica dedicata ai paesaggi costieri del nord Europa durante la stagione invernale, dove il cielo si fonde completamente con l'acqua.</p>
-            <div><a href="#" class="read-link hover-target">Read Story</a></div>
+            <div><a href="#" class="read-link">Read Story</a></div>
         </article>
     </main>
 
@@ -163,40 +143,6 @@
     <script>
         // Inizializza animazioni di scorrimento delicate
         AOS.init({ once: true, offset: 100 });
-
-        // GESTIONE CURSORE PERSONALIZZATO ANIMATO
-        const cursor = document.getElementById('custom-cursor');
-        const overlay = document.getElementById('custom-cursor-overlay');
-        const hoverTargets = document.querySelectorAll('.hover-target');
-
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            
-            // L'overlay segue il mouse con un leggero ritardo (effetto elastico)
-            setTimeout(() => {
-                overlay.style.left = e.clientX + 'px';
-                overlay.style.top = e.clientY + 'px';
-            }, 50);
-        });
-
-        // Effetto quando si passa sopra ai link cliccabili
-        hoverTargets.forEach(target => {
-            target.addEventListener('mouseenter', () => {
-                cursor.style.width = '24px';
-                cursor.style.height = '24px';
-                cursor.style.background = 'rgba(18,18,18,0.1)';
-                overlay.style.width = '55px';
-                overlay.style.height = '55px';
-            });
-            target.addEventListener('mouseleave', () => {
-                cursor.style.width = '8px';
-                cursor.style.height = '8px';
-                cursor.style.background = '#121212';
-                overlay.style.width = '40px';
-                overlay.style.height = '40px';
-            });
-        });
     </script>
 </body>
 </html>
